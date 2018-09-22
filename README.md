@@ -1,5 +1,10 @@
 # Jupyter Notebook
 
+To pull from Docker Hub:
+```
+docker pull feel/jupyter-docker
+```
+
 To build the Docker image:
 ```
 docker image build -t jupyter-notebook .
@@ -21,3 +26,5 @@ docker exec -i -t notebook /bin/bash
 ```
 
 For more information take a look [here](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/running.html).
+
+To start container automatically take a look [here](https://docs.docker.com/config/containers/start-containers-automatically/).
