@@ -1,10 +1,15 @@
 # Jupyter Notebook
 
-## Pull or Build image
+## Manage Docker images
 
 To pull from Docker Hub:
 ```
 docker pull feel/jupyter-docker
+```
+
+To update the parent image too:
+```
+docker pull jupyter/all-spark-notebook
 ```
 
 To build the Docker image:
@@ -12,23 +17,51 @@ To build the Docker image:
 docker image build -t notebook .
 ```
 
-## Run/Stop container
+To remove an old image:
+```
+# Get list of all existing images
+docker images
+# To clean up disk with old images
+docker image rm <name-image>
+```
+
+## Manage Docker containers
+
+To see all containers (even the ones no longer running):
+```
+docker ps -a
+```
+
+To remove old containers (use `--rm` when using `run` command to avoid this annoying step):
+```
+docker rm <container-id>
+```
 
 To run the Docker container:
 ```
-docker run --rm -p 8888:8888 -v "$PWD":/home/jovyan -e JUPYTER_ENABLE_LAB="1" --name notebook jupyter-notebook start-notebook.sh --LabApp.token=''
+docker run --rm -p 8888:8888 -v "$PWD":/home/jovyan -e JUPYTER_ENABLE_LAB="1" --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
 ```
 
 To run the Docker container in background:
 ```
-docker run -d -p 8888:8888 -v "$PWD":/home/jovyan -e JUPYTER_ENABLE_LAB="1" --name notebook jupyter-notebook start-notebook.sh --LabApp.token=''
+docker run --rm -d -p 8888:8888 -v "$PWD":/home/jovyan -e JUPYTER_ENABLE_LAB="1" --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
 ```
 
 For more information take a look [here](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/running.html).
 
-### Automtically start container
+### Automatically start container
 
-To start container automatically take a look [here](https://docs.docker.com/config/containers/start-containers-automatically/).
+```
+docker run -d --restart unless-stopped -p 8888:8888 -v "$PWD":/home/jovyan -e JUPYTER_ENABLE_LAB="1" --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
+```
+
+For more information take a look [here](https://docs.docker.com/config/containers/start-containers-automatically/).
+
+## Restart docker via systemd
+
+```
+sudo systemctl restart docker
+```
 
 ## Run shell in container
 
