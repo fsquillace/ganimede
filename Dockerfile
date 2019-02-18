@@ -42,3 +42,8 @@ RUN mkdir -p /home/$NB_USER/.local/share/jupyter/nbextensions && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
+# Custom pip packages
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir \
+    s3contents
+
