@@ -12,7 +12,8 @@ USER $NB_UID
 RUN conda install --quiet --yes \
     'pymc3' && \
     conda install --quiet --yes -c conda-forge \
-    'jupyter_contrib_nbextensions' && \
+    'jupyter_contrib_nbextensions' \
+    'jupytext' && \
     jupyter nbextensions_configurator enable --user && \
     conda install qgrid && \
     conda clean -tipsy && \
