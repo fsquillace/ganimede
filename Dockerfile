@@ -13,6 +13,7 @@ RUN conda install --quiet --yes \
     'pymc3' && \
     conda install --quiet --yes -c conda-forge \
     'jupyter_contrib_nbextensions' \
+    'ipysheet' \
     'jupytext' && \
     jupyter nbextensions_configurator enable --user && \
     conda install qgrid && \
@@ -32,10 +33,13 @@ RUN conda install --quiet --yes \
 # https://github.com/QuantStack/jupyterlab-drawio
 # Qgrid:
 # https://github.com/quantopian/qgrid
+# ipysheet:
+# https://github.com/QuantStack/ipysheet
 RUN mkdir -p /home/$NB_USER/.local/share/jupyter/nbextensions && \
     cd /home/$NB_USER/.local/share/jupyter/nbextensions && \
     git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding && \
     chmod -R go-w vim_binding && \
+    jupyter labextension install ipysheet && \
     jupyter labextension install jupyterlab_vim && \
     jupyter labextension install @jupyterlab/toc && \
     jupyter labextension install jupyterlab-drawio && \
