@@ -35,6 +35,8 @@ RUN conda install --quiet --yes \
 # https://github.com/quantopian/qgrid
 # ipysheet:
 # https://github.com/QuantStack/ipysheet
+# GitHub:
+# https://github.com/jupyterlab/jupyterlab-github
 RUN mkdir -p /home/$NB_USER/.local/share/jupyter/nbextensions && \
     cd /home/$NB_USER/.local/share/jupyter/nbextensions && \
     git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding && \
@@ -44,11 +46,13 @@ RUN mkdir -p /home/$NB_USER/.local/share/jupyter/nbextensions && \
     jupyter labextension install @jupyterlab/toc && \
     jupyter labextension install jupyterlab-drawio && \
     jupyter labextension install qgrid && \
+    jupyter labextension install @jupyterlab/github && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
 # Custom pip packages
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir \
-    s3contents
+    s3contents \
+    jupyterlab_github
 
