@@ -18,6 +18,7 @@ docker image build -t notebook .
 ```
 
 To remove an old image:
+
 ```
 # Get list of all existing images
 docker images
@@ -27,6 +28,7 @@ docker image rm <name-image>
 
 ## Manage Docker containers
 
+### Basic commands
 To see all containers (even the ones no longer running):
 ```
 docker ps -a
@@ -42,6 +44,8 @@ To remove old containers (use `--rm` when using `run` command to avoid this anno
 docker rm <container-id>
 ```
 
+### Start container
+
 To run the Docker container:
 ```
 docker run --rm -p 8888:8888 -v "$PWD":/home/jovyan -e JUPYTER_ENABLE_LAB="1" --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
@@ -54,11 +58,21 @@ docker run --rm -d -p 8888:8888 -v "$PWD":/home/jovyan -e JUPYTER_ENABLE_LAB="1"
 
 For more information take a look [here](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/running.html).
 
-### Automatically start container
-
+To automatically start container at boot time:
 ```
 docker run -d --restart unless-stopped -p 8888:8888 -v "$PWD":/home/jovyan -e JUPYTER_ENABLE_LAB="1" --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
 ```
+
+#### Using systemd (recommended)
+
+```
+mkdir ~/.config/systemd/user/
+cp jupyter.service ~/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user start jupyter.service
+systemctl --user enable jupyter.service
+```
+
 
 For more information take a look [here](https://docs.docker.com/config/containers/start-containers-automatically/).
 
