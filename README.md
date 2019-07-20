@@ -48,19 +48,28 @@ docker rm <container-id>
 
 To run the Docker container:
 ```
-docker run --rm -p 8888:8888 -v "$PWD":/home/jovyan -e JUPYTER_ENABLE_LAB="1" --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
+docker run --rm -p 8888:8888 \
+         -v "$PWD":/home/jovyan/work \
+         -e JUPYTER_ENABLE_LAB="1" \
+         --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
 ```
 
 To run the Docker container in background:
 ```
-docker run --rm -d -p 8888:8888 -v "$PWD":/home/jovyan -e JUPYTER_ENABLE_LAB="1" --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
+docker run --rm -d -p 8888:8888 \
+         -v "$PWD":/home/jovyan/work \
+         -e JUPYTER_ENABLE_LAB="1" \
+         --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
 ```
 
 For more information take a look [here](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/running.html).
 
 To automatically start container at boot time:
 ```
-docker run -d --restart unless-stopped -p 8888:8888 -v "$PWD":/home/jovyan -e JUPYTER_ENABLE_LAB="1" --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
+docker run -d --restart unless-stopped -p 8888:8888 \
+         -v "$PWD":/home/jovyan/work \
+         -e JUPYTER_ENABLE_LAB="1" \
+         --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
 ```
 
 #### Using systemd (recommended)
