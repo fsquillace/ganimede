@@ -12,8 +12,6 @@ USER $NB_UID
 # https://github.com/quantopian/qgrid
 # DGL: Deep learning on graphs
 # https://www.dgl.ai/pages/start.html
-# Imbalanced learn: Data augmentation. Allows to under-sampling/over-sampling data.
-# https://imbalanced-learn.readthedocs.io/en/stable/
 # SHAP: Explains why the output of any ML model by analyzing the trained model
 # https://github.com/slundberg/shap
 # Install vim-binding which does not have a pip or conda package at the moment
@@ -34,12 +32,8 @@ USER $NB_UID
 # https://gluon-cv.mxnet.io/
 # GluonNLP: NLP made easy
 # https://gluon-nlp.mxnet.io/
-# GluonTS: Probabilistic Time Series Modeling
-# https://gluon-ts.mxnet.io/
 # XGBoost: Advanced regressor and classifier
 # https://xgboost.ai/
-# Markdown-kernel:
-# https://github.com/vatlab/markdown-kernel
 # NLTK: human language data for the purpose of building chatbots
 # https://www.nltk.org/
 # Keras: Deep learning and neural networks
@@ -48,20 +42,38 @@ USER $NB_UID
 # https://www.tensorflow.org/
 # JobLib:
 # https://joblib.readthedocs.io/en/latest/
+# Almond:
+# https://almond.sh/
+# Images available: https://github.com/almond-sh/docker-images
+
+# Disabled packages:
+#
+# Imbalanced learn: Data augmentation. Allows to under-sampling/over-sampling data.
+# https://imbalanced-learn.readthedocs.io/en/stable/
+# Markdown-kernel:
+# https://github.com/vatlab/markdown-kernel
+# Error:
+#   - Does not work well.
+# GluonTS: Probabilistic Time Series Modeling
+# https://gluon-ts.mxnet.io/
+# Error raised during build:
+#   - gluonts 0.3.2 has requirement mxnet<1.5.*,>=1.3.1,
+#     but you'll have mxnet 1.5.0 which is incompatible.
+#   - gluonts 0.3.2 has requirement numpy==1.14.*,
+#     but you'll have numpy 1.17.0 which is incompatible.
+#
 
 # Custom pip packages
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir \
-    mxnet gluoncv gluonts gluonnlp \
+    mxnet gluoncv gluonnlp \
     xgboost \
     s3contents \
     jupyterlab_github \
     nltk \
     keras \
     tensorflow \
-    joblib \
-    markdown-kernel && \
-    python -m markdown_kernel.install
+    joblib
 
 # Custom packages via conda
 RUN conda install --quiet --yes \
@@ -70,11 +82,12 @@ RUN conda install --quiet --yes \
     'jupyter_contrib_nbextensions' \
     'ipysheet' \
     'shap' \
-    'imbalanced-learn' \
     'jupytext' && \
     jupyter nbextensions_configurator enable --user && \
     conda install --quiet --yes -c dglteam dgl && \
-    conda clean -tipsy && \
+    conda clean --all -f -y && \
+    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
@@ -90,12 +103,12 @@ RUN mkdir -p /home/$NB_USER/.local/share/jupyter/nbextensions && \
     jupyter labextension install qgrid && \
     jupyter labextension install @jupyterlab/github && \
     jupyter labextension install @jupyterlab/plotly-extension && \
+    npm cache clean --force && \
+    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
+    rm -rf /home/$NB_USER/.node-gyp && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
-
-# Almond
-# https://almond.sh/
-# Images available: https://github.com/almond-sh/docker-images
 
 USER root
 

@@ -72,6 +72,16 @@ docker run -d --restart unless-stopped -p 8888:8888 \
          --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
 ```
 
+#### Persist Jupyter user settings
+
+The folder `.jupyter` contains the jupyter settings.
+Add the following mount when running the container, considering your settings
+are located in `/home/username/jupyter-config`:
+```
+     -v /home/username/jupyter-config/bash_history:/home/jovyan/.bash_history \
+     -v /home/username/jupyter-config/jupyter:/home/jovyan/.jupyter
+```
+
 #### Using systemd (recommended)
 
 ```
