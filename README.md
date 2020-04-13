@@ -1,20 +1,55 @@
-# Jupyter Notebook
+# Ganimede Jupyter Notebook
+
+## Manage Conda environments
+
+### Use environment lock file
+
+The file `environment-lock.yml` contains all conda/pip dependencies generated
+by a stable version of the Ganimede Docker image.
+This can be considered the most stable way to install all tools/library from
+Ganimede when using Conda environments.
+The disadvantage is that the packages will not be the most updated
+versions.
+
+To create a Conda environment (default is `base`) from the lock file:
+```
+make conda-create-from-lock-file CONDA_ENV=myenv
+```
+
+To update a Conda environment (default is `base`) from the lock file:
+```
+make conda-update-from-lock-file CONDA_ENV=myenv
+```
+
+To update a Conda environment (default is `base`) from the lock file but prune
+the package not belonging to the lock file:
+```
+make update-prune-from-lock-file CONDA_ENV=myenv
+```
+
+### Use the setup tools/library scripts
+There are scenarios where the Jupyter server/tools and the python libraries are in
+different conda environments. You can use the scripts in `bin/` directory to
+setup specific set of packages depending on the environment.
+
+For example to setup the Ganimede tools in the conda environment
+`jupyter-server` and setup python libraries to `myenv`:
+
+```
+make conda-setup-tools CONDA_ENV=jupyter-server
+make conda-setup-libraries CONDA_ENV=myenv
+```
 
 ## Manage Docker images
 
-To pull from Docker Hub:
+To pull Ganimede from Docker Hub:
 ```
-docker pull feel/jupyter-docker
-```
-
-To update the parent image too:
-```
-docker pull jupyter/all-spark-notebook
+make docker-pull
 ```
 
-To build the Docker image:
+To build the Ganimede Docker image:
 ```
-docker image build -t notebook .
+make docker-build
 ```
 
 To remove an old image:
@@ -48,28 +83,19 @@ docker rm <container-id>
 
 To run the Docker container:
 ```
-docker run --rm -p 8888:8888 \
-         -v "$PWD":/home/jovyan/work \
-         -e JUPYTER_ENABLE_LAB="1" \
-         --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
+make docker-run WORK_DIR="/path/to/workdir"
 ```
 
 To run the Docker container in background:
 ```
-docker run --rm -d -p 8888:8888 \
-         -v "$PWD":/home/jovyan/work \
-         -e JUPYTER_ENABLE_LAB="1" \
-         --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
+make docker-background-run WORK_DIR="/path/to/workdir"
 ```
 
 For more information take a look [here](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/running.html).
 
 To automatically start container at boot time:
 ```
-docker run -d --restart unless-stopped -p 8888:8888 \
-         -v "$PWD":/home/jovyan/work \
-         -e JUPYTER_ENABLE_LAB="1" \
-         --name notebook feel/jupyter-docker start-notebook.sh --LabApp.token=''
+make docker-boot-run WORK_DIR="/path/to/workdir"
 ```
 
 #### Persist Jupyter user settings
@@ -84,12 +110,10 @@ are located in `/home/username/jupyter-config`:
 
 #### Using systemd (recommended)
 
+If your system supports systemd you can run Ganimede as a Systemd service
+
 ```
-mkdir ~/.config/systemd/user/
-cp jupyter.service ~/.config/systemd/user/
-systemctl --user daemon-reload
-systemctl --user start jupyter.service
-systemctl --user enable jupyter.service
+make start-systemd-service
 ```
 
 
@@ -105,7 +129,7 @@ sudo systemctl restart docker
 
 To run a shell in the Docker container:
 ```
-docker exec -i -t notebook /bin/bash
+make docker-shell
 ```
 
 ## Clean up unused containers, networks, volumes and images
