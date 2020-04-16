@@ -1,45 +1,5 @@
 # Ganimede Jupyter Notebook
 
-## Manage Conda environments
-
-### Use environment lock file
-
-The file `environment-lock.yml` contains all conda/pip dependencies generated
-by a stable version of the Ganimede Docker image.
-This can be considered the most stable way to install all tools/library from
-Ganimede when using Conda environments.
-The disadvantage is that the packages will not be the most updated
-versions.
-
-To create a Conda environment (default is `base`) from the lock file:
-```
-make conda-create-from-lock-file CONDA_ENV=myenv
-```
-
-To update a Conda environment (default is `base`) from the lock file:
-```
-make conda-update-from-lock-file CONDA_ENV=myenv
-```
-
-To update a Conda environment (default is `base`) from the lock file but prune
-the package not belonging to the lock file:
-```
-make update-prune-from-lock-file CONDA_ENV=myenv
-```
-
-### Use the setup tools/library scripts
-There are scenarios where the Jupyter server/tools and the python libraries are in
-different conda environments. You can use the scripts in `bin/` directory to
-setup specific set of packages depending on the environment.
-
-For example to setup the Ganimede tools in the conda environment
-`jupyter-server` and setup python libraries to `myenv`:
-
-```
-make conda-setup-tools CONDA_ENV=jupyter-server
-make conda-setup-libraries CONDA_ENV=myenv
-```
-
 ## Manage Docker images
 
 To pull Ganimede from Docker Hub:
@@ -137,3 +97,18 @@ make docker-shell
 ```
 docker system prune --all --volumes
 ```
+
+## Manage Conda environments
+
+There are scenarios where the Jupyter server/tools and the python libraries are in
+different conda environments. You can use the scripts in `bin/` directory to
+setup specific set of packages depending on the environment.
+
+For example to setup the Ganimede tools in the conda environment
+`jupyter-server` and setup python libraries to `myenv`:
+
+```
+make conda-setup-tools CONDA_ENV=jupyter-server
+make conda-setup-libraries CONDA_ENV=myenv
+```
+

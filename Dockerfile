@@ -12,7 +12,7 @@ RUN conda install --quiet --yes \
     'jupyterhub=1.0.0'
 
 RUN mkdir -p ganimede
-COPY --chown=jovyan:users ./* ganimede/
+COPY --chown=jovyan:users . ganimede/
 
 RUN ganimede/bin/setup-tools.sh && \
     ganimede/bin/setup-libraries.sh && \

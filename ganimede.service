@@ -1,0 +1,13 @@
+[Unit]
+Description=Jupyter Container
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStartPre=-/usr/bin/docker stop %N
+ExecStartPre=-/usr/bin/docker rm %N
+ExecStartPre=/usr/bin/docker pull feel/ganimede
+ExecStart=/usr/bin/docker run --rm -p 8888:8888 -v %h:/home/jovyan/work -e JUPYTER_ENABLE_LAB="1" --name %N feel/jupyter-docker start-notebook.sh --LabApp.token=''
+
+[Install]
+WantedBy=multi-user.target

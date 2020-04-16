@@ -14,7 +14,6 @@ install:
   - conda info -a
 
 script:
-  # Your test script goes here
   - make test
   - make docker-build
   #- make docker-run DOCKER_IMAGE=ganimede

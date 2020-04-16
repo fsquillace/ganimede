@@ -49,6 +49,7 @@ pip install --upgrade pip && \
     keras \
     tensorflow \
     koalas \
+    pyspark \
     joblib
 
 

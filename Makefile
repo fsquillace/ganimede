@@ -15,18 +15,6 @@ test:
 ###########################
 # Conda related targets
 ###########################
-conda-create-from-lock-file:
-	conda create -n $(CONDA_ENV) -f environment-lock.yml
-
-conda-update-from-lock-file:
-	conda update -n $(CONDA_ENV) -f environment-lock.yml
-
-conda-update-prune-from-lock-file:
-	conda update --prune -n $(CONDA_ENV) -f environment-lock.yml
-
-conda-create-lock-file: docker-build
-	docker run --rm --name ganimede ganimede /bin/bash -c 'conda env export -n base' > environment-lock.yml
-
 conda-setup-libraries:
 	conda run -n $(CONDA_ENV) ./bin/setup-libraries.sh
 
