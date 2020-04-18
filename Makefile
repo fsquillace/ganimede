@@ -29,6 +29,10 @@ conda-setup-tools:
 docker-build:
 	docker image build --pull -t ganimede -f Dockerfile .
 
+docker-push:
+	docker login -u $(DOCKER_USERNAME) -p $(DOCKER_PASSWORD)
+	docker push feel/ganimede
+
 docker-pull:
 	docker pull $(DOCKER_IMAGE)
 
@@ -60,11 +64,11 @@ docker-shell:
 ###########################
 setup-systemd-service:
 	mkdir -p ${HOME}/.config/systemd/user/
-	cp jupyter.service ${HOME}/.config/systemd/user/
+	cp ganimede.service ${HOME}/.config/systemd/user/
 	systemctl --user daemon-reload
-	systemctl --user enable jupyter.service
+	systemctl --user enable ganimede.service
 
 start-systemd-service: setup-systemd-service
-	systemctl --user start jupyter.service
+	systemctl --user start ganimede.service
 
 
