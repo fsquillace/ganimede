@@ -31,8 +31,7 @@ set -eu
 
 # Some Jupyter lab extensions do not work with jupyter lab 2.0
 conda install --quiet --yes \
-    'jupyterlab=1.0.4' \
-    'jupyterhub=1.0.0'
+    'jupyterlab=1.2.6'
 
 # Custom pip packages
 pip install --upgrade pip && \
