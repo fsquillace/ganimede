@@ -30,7 +30,7 @@ docker-build:
 	docker image build --pull -t ganimede -f Dockerfile .
 
 docker-push:
-	docker login -u $(DOCKER_USERNAME) -p $(DOCKER_PASSWORD)
+	echo "$(DOCKER_PASSWORD)" | docker login -u "$(DOCKER_USERNAME)" --password-stdin
 	docker push feel/ganimede
 
 docker-pull:
