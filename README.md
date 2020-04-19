@@ -108,7 +108,7 @@ For example to setup the Ganimede tools in the conda environment
 `jupyter-server` and setup python libraries to `myenv`:
 
 ```
-make conda-setup-tools CONDA_ENV=jupyter-server
-make conda-setup-libraries CONDA_ENV=myenv
+make -f Makefile-conda conda-setup-tools CONDA_ENV=jupyter-server
+make -f Makefile-conda conda-setup-libraries CONDA_ENV=myenv
 ```
 

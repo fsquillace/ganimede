@@ -51,18 +51,16 @@ conda install --quiet --yes \
     jupyter nbextensions_configurator enable --user
 
 # Custom extensions
-mkdir -p /home/$NB_USER/.local/share/jupyter/nbextensions && \
-    cd /home/$NB_USER/.local/share/jupyter/nbextensions && \
+mkdir -p ${HOME}/.local/share/jupyter/nbextensions && \
+    cd ${HOME}/.local/share/jupyter/nbextensions && \
     git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding && \
     chmod -R go-w vim_binding && \
     jupyter labextension install ipysheet && \
-    # TODO ValueError: The extension "jupyterlab_vim" does not yet support the current version of JupyterLab.
     jupyter labextension install jupyterlab_vim && \
     jupyter labextension install @jupyterlab/toc && \
     jupyter labextension install jupyterlab-drawio && \
     jupyter labextension install qgrid && \
     jupyter labextension install @jupyterlab/github && \
-    # TODO ValueError: The extension "plotly-extension" does not yet support the current version of JupyterLab.
     jupyter labextension install @jupyterlab/plotly-extension
 
 
@@ -76,12 +74,12 @@ mkdir -p ${HOME}/.local/bin && \
     # ensure the JAR of the CLI is in the coursier cache, in the image
     coursier --help && \
     coursier bootstrap \
-      -r jitpack \
+      --force -r jitpack \
       -i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \
       sh.almond:scala-kernel_$SCALA_VERSION:$ALMOND_VERSION \
       --default=true --sources \
       -o almond && \
-    ./almond --install --log info --metabrowse && \
-    rm almond
+    ./almond --force --install --log info --metabrowse && \
+    rm -f almond
 
 

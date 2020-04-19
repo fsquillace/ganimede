@@ -26,7 +26,7 @@ install:
   - conda info -a
 
 script:
-  - make test
+  - make -f Makefile-conda test
   - make docker-build
 
 deploy:

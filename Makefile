@@ -1,25 +1,6 @@
 
-CONDA_ENV ?= base
 WORK_DIR ?= $(PWD)
-
 DOCKER_IMAGE ?= feel/ganimede
-
-
-###########################
-# General targets
-###########################
-test:
-	bash ./tests/test_ganimede.sh
-
-
-###########################
-# Conda related targets
-###########################
-conda-setup-libraries:
-	conda run -n $(CONDA_ENV) ./bin/setup-libraries.sh
-
-conda-setup-tools:
-	conda run -n $(CONDA_ENV) ./bin/setup-tools.sh
 
 
 ###########################

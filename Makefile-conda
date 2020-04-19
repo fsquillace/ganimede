@@ -1,0 +1,42 @@
+
+CONDA_ENV ?= base
+
+ifeq "$(CONDA_ENV)" "base"
+CONDA_ENV_DIR = $(shell conda info --base)
+else
+CONDA_ENV_DIR = $(shell grep /$(CONDA_ENV)$$ ~/.conda/environments.txt)
+endif
+
+ifeq ($(CONDA_ENV_DIR),)
+$(error Could not find the Conda environment for $(CONDA_ENV)!)
+endif
+
+CONDA_WRAPPERS_DIR = /tmp/$(CONDA_ENV)_wrappers
+
+###########################
+# General targets
+###########################
+test:
+	bash ./tests/test_ganimede.sh
+
+
+###########################
+# Conda related targets
+###########################
+conda-env:
+	conda env update -f ./environment.yml -n $(CONDA_ENV)
+
+conda-create-wrappers: conda-env
+	$(CONDA_ENV_DIR)/bin/create-wrappers -t conda -f $(FILE_TO_WRAP) --dest-dir $(CONDA_WRAPPERS_DIR) --conda-env-dir $(CONDA_ENV_DIR)
+
+conda-run-as-wrappers: conda-create-wrappers
+	$(CONDA_WRAPPERS_DIR)/$(shell basename $(FILE_TO_WRAP))
+
+conda-setup-libraries: FILE_TO_WRAP = ./bin/setup-libraries.sh
+conda-setup-libraries: conda-run-as-wrappers
+
+conda-setup-tools: FILE_TO_WRAP = ./bin/setup-tools.sh
+conda-setup-tools: conda-create-wrappers
+	$(CONDA_WRAPPERS_DIR)/setup-tools.sh
+
+
