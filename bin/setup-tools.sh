@@ -18,6 +18,10 @@ set -eu
 # https://github.com/QuantStack/ipysheet
 # GitHub:
 # https://github.com/jupyterlab/jupyterlab-github
+# Papermill:
+# https://github.com/nteract/papermill
+# SparkMagic:
+# https://github.com/jupyter-incubator/sparkmagic
 # Almond:
 # https://almond.sh/
 # Images available: https://github.com/almond-sh/docker-images
@@ -39,7 +43,8 @@ pip install --upgrade pip && \
     pearl \
     s3contents \
     jupyterlab_github \
-    papermill[s3]
+    papermill[s3] \
+    sparkmagic
 
 
 # Custom packages via conda
@@ -64,6 +69,12 @@ mkdir -p ${HOME}/.local/share/jupyter/nbextensions && \
     jupyter labextension install @jupyterlab/github && \
     jupyter labextension install @jupyterlab/plotly-extension
 
+# SparkMagic
+cd /opt/conda/lib/python3.7/site-packages
+jupyter-kernelspec install sparkmagic/kernels/sparkkernel --user
+jupyter-kernelspec install sparkmagic/kernels/pysparkkernel --user
+jupyter-kernelspec install sparkmagic/kernels/sparkrkernel --user
+jupyter serverextension enable --py sparkmagic
 
 SCALA_VERSION=2.12.8
 ALMOND_VERSION=0.6.0

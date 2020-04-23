@@ -8,6 +8,7 @@ DOCKER_IMAGE ?= feel/ganimede
 ###########################
 test:
 	docker exec -it ganimede /bin/bash -c 'papermill work/tests/test_notebook.ipynb /tmp/test_notebook_output.ipynb'
+	docker exec -it ganimede /bin/bash -c 'papermill -k pysparkkernel work/tests/test_sparkmagic.ipynb /tmp/test_sparkmagic_output.ipynb'
 
 
 ###########################
@@ -41,8 +42,10 @@ docker-boot-run: DOCKER_ARGS += -d --restart unless-stopped
 docker-boot-run: docker-run-base
 
 docker-shell:
-	docker exec -it ganimede /bin/bash
+	docker exec $(DOCKER_ARGS) -it ganimede /bin/bash
 
+docker-shell-root: DOCKER_ARGS += -u root
+docker-shell-root: docker-shell
 
 ###########################
 # Systemd related targets
