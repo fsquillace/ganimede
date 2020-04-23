@@ -7,7 +7,7 @@ DOCKER_IMAGE ?= feel/ganimede
 # General targets
 ###########################
 test:
-	docker exec -it ganimede /bin/bash -c 'jupyter nbconvert --to notebook --execute work/tests/test_notebook.ipynb --output-dir=/tmp'
+	docker exec -it ganimede /bin/bash -c 'papermill work/tests/test_notebook.ipynb /tmp/test_notebook_output.ipynb'
 
 
 ###########################

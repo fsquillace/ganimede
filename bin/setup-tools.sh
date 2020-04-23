@@ -38,7 +38,8 @@ pip install --upgrade pip && \
     pip install --no-cache-dir \
     pearl \
     s3contents \
-    jupyterlab_github
+    jupyterlab_github \
+    papermill[s3]
 
 
 # Custom packages via conda
