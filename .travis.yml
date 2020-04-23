@@ -28,6 +28,11 @@ install:
 script:
   - make -f Makefile-conda test
   - make docker-build
+  - make docker-background-run DOCKER_IMAGE="ganimede"
+  - sleep 60
+  - curl http://localhost:8888
+  - make test
+  - docker stop ganimede
 
 deploy:
   provider: script

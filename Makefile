@@ -4,6 +4,13 @@ DOCKER_IMAGE ?= feel/ganimede
 
 
 ###########################
+# General targets
+###########################
+test:
+	docker exec -it ganimede /bin/bash -c 'jupyter nbconvert --to notebook --execute work/tests/test_notebook.ipynb --output-dir=/tmp'
+
+
+###########################
 # Docker related targets
 ###########################
 # `--pull` attempts to pull latest version of base image:
@@ -17,24 +24,21 @@ docker-push:
 docker-pull:
 	docker pull $(DOCKER_IMAGE)
 
-docker-run:
-	docker run --rm -p 8888:8888 \
+docker-run-base:
+	docker run -p 8888:8888 \
+        $(DOCKER_ARGS) \
         -v "$(WORK_DIR)":/home/jovyan/work \
         -e JUPYTER_ENABLE_LAB="1" \
         --name ganimede $(DOCKER_IMAGE) start-notebook.sh --LabApp.token=''
 
-docker-background-run:
-	docker run --rm -p 8888:8888 \
-        -d \
-        -v "$(WORK_DIR)":/home/jovyan/work \
-        -e JUPYTER_ENABLE_LAB="1" \
-        --name ganimede $(DOCKER_IMAGE) start-notebook.sh --LabApp.token=''
+docker-run: DOCKER_ARGS += --rm
+docker-run: docker-run-base
 
-docker-boot-run:
-	docker run -d --restart unless-stopped -p 8888:8888 \
-        -v "$(WORK_DIR)":/home/jovyan/work \
-        -e JUPYTER_ENABLE_LAB="1" \
-        name notebook $(DOCKER_IMAGE) start-notebook.sh --LabApp.token=''
+docker-background-run: DOCKER_ARGS += -d
+docker-background-run: docker-run
+
+docker-boot-run: DOCKER_ARGS += -d --restart unless-stopped
+docker-boot-run: docker-run-base
 
 docker-shell:
 	docker exec -it ganimede /bin/bash
