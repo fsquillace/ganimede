@@ -38,14 +38,18 @@ ROOT_DIR="$(dirname $(readlink -f $0))/../"
 ##############################
 ## Installation base packages
 ##############################
+# Make sure there are not cached location that are not longer working
+hash -r
+conda update -y -n base conda -c defaults
 # jupyterlab: Some Jupyter lab extensions do not work with jupyter lab 2.0
-# pykerberos: Required for sparkmagic
-conda update -n base conda
-conda install --quiet --yes -c conda-forge nodejs
+# pykerberos: Required by sparkmagic
+# openjdk: Required by almond
+# nodejs version higher than 8 conflicts with jupyterlab-manager extension
 conda install --quiet --yes \
     'jupyterlab=1.2.6' \
     gxx_linux-64 \
     jupyter \
+    nodejs=8.12.0 \
     openjdk=8.0.152 \
     pykerberos \
     python=3.7

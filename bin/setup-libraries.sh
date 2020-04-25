@@ -1,4 +1,4 @@
-set -eu
+set -eux
 
 # List of all packages installed:
 #
@@ -43,11 +43,13 @@ set -eu
 ##############################
 ## Installation base packages
 ##############################
+# Make sure there are not cached location that are not longer working
+hash -r
+conda update -y -n base conda -c defaults
 # gxx_linux-64: Required for gluonnlp
-conda update -n base conda
-conda install --quiet --yes -c conda-forge nodejs
 conda install --quiet --yes \
-    gxx_linux-64
+    gxx_linux-64 \
+    python=3.7
 
 
 ##############################
@@ -57,7 +59,6 @@ conda install --quiet --yes \
 pip install --upgrade pip && \
     pip install --no-cache-dir \
     mxnet gluoncv \
-    gluonnlp \
     xgboost \
     nltk \
     keras \
