@@ -40,10 +40,23 @@ set -eu
 #     but you'll have numpy 1.17.0 which is incompatible.
 #
 
+##############################
+## Installation base packages
+##############################
+# gxx_linux-64: Required for gluonnlp
+conda install --quiet --yes -c conda-forge nodejs
+conda install --quiet --yes \
+    gxx_linux-64
+
+
+##############################
 # Custom pip packages
+##############################
+# gluonnlp does not work: fast_bert_tokenizer.o: file not recognized: file format not recognized
 pip install --upgrade pip && \
     pip install --no-cache-dir \
-    mxnet gluoncv gluonnlp \
+    mxnet gluoncv \
+    gluonnlp \
     xgboost \
     nltk \
     keras \
@@ -53,7 +66,9 @@ pip install --upgrade pip && \
     joblib
 
 
+##############################
 # Custom packages via conda
+##############################
 conda install --quiet --yes \
     'pymc3' qgrid && \
     conda install --quiet --yes -c conda-forge \

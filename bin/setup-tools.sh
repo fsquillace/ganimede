@@ -1,4 +1,4 @@
-set -eu
+set -eux
 
 # List of all packages/extensions installed:
 #
@@ -33,11 +33,29 @@ set -eu
 # Error:
 #   - Does not work well.
 
-# Some Jupyter lab extensions do not work with jupyter lab 2.0
-conda install --quiet --yes \
-    'jupyterlab=1.2.6'
+ROOT_DIR="$(dirname $(readlink -f $0))/../"
 
+##############################
+## Installation base packages
+##############################
+# jupyterlab: Some Jupyter lab extensions do not work with jupyter lab 2.0
+# pykerberos: Required for sparkmagic
+conda install --quiet --yes -c conda-forge nodejs
+conda install --quiet --yes \
+    'jupyterlab=1.2.6' \
+    gxx_linux-64 \
+    jupyter \
+    openjdk=8.0.152 \
+    pykerberos \
+    python=3.7
+# These extensions needs to be reinstalled such that jupyter will pick the version
+# compatible with 1.x
+jupyter labextension install @jupyter-widgets/jupyterlab-manager @bokeh/jupyter_bokeh jupyterlab-jupytext
+
+
+##############################
 # Custom pip packages
+##############################
 pip install --upgrade pip && \
     pip install --no-cache-dir \
     pearl \
@@ -47,7 +65,9 @@ pip install --upgrade pip && \
     sparkmagic
 
 
+##############################
 # Custom packages via conda
+##############################
 conda install --quiet --yes \
     qgrid && \
     conda install --quiet --yes -c conda-forge \
@@ -56,7 +76,9 @@ conda install --quiet --yes \
     'jupytext' && \
     jupyter nbextensions_configurator enable --user
 
+##############################
 # Custom extensions
+##############################
 mkdir -p ${HOME}/.local/share/jupyter/nbextensions && \
     cd ${HOME}/.local/share/jupyter/nbextensions && \
     git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding && \
@@ -69,17 +91,41 @@ mkdir -p ${HOME}/.local/share/jupyter/nbextensions && \
     jupyter labextension install @jupyterlab/github && \
     jupyter labextension install @jupyterlab/plotly-extension
 
+
+##############################
+## Other settings
+##############################
+PATH="${HOME}/.local/bin:${PATH}"
+
 # SparkMagic
-cd /opt/conda/lib/python3.7/site-packages
+CONDA_DEFAULT_ENV=${CONDA_DEFAULT_ENV:-base}
+if [[ "$CONDA_DEFAULT_ENV" == "base" ]]
+then
+    CONDA_ENV_DIR=$(conda info --base)
+else
+    CONDA_ENV_DIR=$(grep "/${CONDA_DEFAULT_ENV}$" ~/.conda/environments.txt)
+fi
+cd $CONDA_ENV_DIR/lib/python3.7/site-packages
 jupyter-kernelspec install sparkmagic/kernels/sparkkernel --user
 jupyter-kernelspec install sparkmagic/kernels/pysparkkernel --user
 jupyter-kernelspec install sparkmagic/kernels/sparkrkernel --user
+
+mkdir -p ${HOME}/.sparkmagic
+cp ${ROOT_DIR}/configs/config.json ${HOME}/.sparkmagic
 jupyter serverextension enable --py sparkmagic
 
+mkdir -p ${HOME}/livy
+cd ${HOME}/livy
+LIVY_VERSION=0.7.0-incubating
+rm -rf apache-livy-$LIVY_VERSION-bin
+wget http://apache.uvigo.es/incubator/livy/$LIVY_VERSION/apache-livy-$LIVY_VERSION-bin.zip
+unzip apache-livy-$LIVY_VERSION-bin.zip
+rm -rf apache-livy-$LIVY_VERSION-bin.zip
+
+
+# Almond
 SCALA_VERSION=2.12.8
 ALMOND_VERSION=0.6.0
-PATH="${HOME}/.local/bin:${PATH}"
-
 mkdir -p ${HOME}/.local/bin && \
     curl -L -o ${HOME}/.local/bin/coursier https://git.io/coursier-cli && \
     chmod +x ${HOME}/.local/bin/coursier && \
