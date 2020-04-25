@@ -24,7 +24,7 @@ test:
 # Conda related targets
 ###########################
 install-conda-wrappers:
-	conda install -y -n $(CONDA_ENV) -c conda-forge conda-wrappers
+	conda install -y -n $(CONDA_ENV) -c conda-forge conda-wrappers=1.1.3
 
 conda-create-wrappers: install-conda-wrappers
 	$(CONDA_ENV_DIR)/bin/create-wrappers -t conda -f $(FILE_TO_WRAP) --dest-dir $(CONDA_WRAPPERS_DIR) --conda-env-dir $(CONDA_ENV_DIR)

@@ -44,6 +44,7 @@ set -eu
 ## Installation base packages
 ##############################
 # gxx_linux-64: Required for gluonnlp
+conda update -n base conda
 conda install --quiet --yes -c conda-forge nodejs
 conda install --quiet --yes \
     gxx_linux-64

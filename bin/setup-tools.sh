@@ -40,6 +40,7 @@ ROOT_DIR="$(dirname $(readlink -f $0))/../"
 ##############################
 # jupyterlab: Some Jupyter lab extensions do not work with jupyter lab 2.0
 # pykerberos: Required for sparkmagic
+conda update -n base conda
 conda install --quiet --yes -c conda-forge nodejs
 conda install --quiet --yes \
     'jupyterlab=1.2.6' \
