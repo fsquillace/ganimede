@@ -16,7 +16,7 @@ test:
 ###########################
 # `--pull` attempts to pull latest version of base image:
 docker-build:
-	docker image build --pull -t ganimede -f Dockerfile .
+	docker image build --rm --pull -t ganimede -f Dockerfile .
 
 docker-push:
 	echo "$(DOCKER_PASSWORD)" | docker login -u "$(DOCKER_USERNAME)" --password-stdin

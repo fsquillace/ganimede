@@ -7,7 +7,8 @@ os.environ["DGLBACKEND"] = "mxnet"
 import databricks.koalas
 import dgl
 import gluoncv
-import gluonnlp
+# gluonnlp does not work: fast_bert_tokenizer.o: file not recognized: file format not recognized
+# import gluonnlp
 import joblib
 import keras
 import mxnet

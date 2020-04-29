@@ -20,5 +20,5 @@ RUN cd ganimede && \
         fix-permissions $CONDA_DIR && \
         fix-permissions /home/$NB_USER
 
-COPY ganimede/bin/start-ganimede.sh /usr/local/bin/
+COPY bin/start-ganimede.sh /usr/local/bin/
 CMD ["start-ganimede.sh"]

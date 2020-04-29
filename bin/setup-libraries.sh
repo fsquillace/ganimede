@@ -45,10 +45,9 @@ set -eux
 ##############################
 # Make sure there are not cached location that are not longer working
 hash -r
-conda update -y -n base conda -c defaults
+conda update --yes -n base conda
 # gxx_linux-64: Required for gluonnlp
 conda install --quiet --yes \
-    gxx_linux-64 \
     python=3.7
 
 

@@ -40,22 +40,22 @@ ROOT_DIR="$(dirname $(readlink -f $0))/../"
 ##############################
 # Make sure there are not cached location that are not longer working
 hash -r
-conda update -y -n base conda -c defaults
+conda update --yes -n base conda
 # jupyterlab: Some Jupyter lab extensions do not work with jupyter lab 2.0
 # pykerberos: Required by sparkmagic
-# openjdk: Required by almond
+# openjdk [REMOVED]: Required by almond
 # nodejs version higher than 8 conflicts with jupyterlab-manager extension
-conda install --quiet --yes \
-    'jupyterlab=1.2.6' \
-    gxx_linux-64 \
-    jupyter \
-    nodejs=8.12.0 \
-    openjdk=8.0.152 \
-    pykerberos \
-    python=3.7
+#conda install --yes -c anaconda -c conda-forge \
+    #notebook=6.0.3 \
+    #jupyterhub=1.1.0 \
+    #jupyterlab=1.2.6 \
+    #gxx_linux-64=7.3.0 \
+    #nodejs=8.12.0 \
+    #pykerberos \
+    #python=3.7
 # These extensions needs to be reinstalled such that jupyter will pick the version
 # compatible with 1.x
-jupyter labextension install @jupyter-widgets/jupyterlab-manager @bokeh/jupyter_bokeh jupyterlab-jupytext
+#jupyter labextension install @jupyter-widgets/jupyterlab-manager @bokeh/jupyter_bokeh jupyterlab-jupytext
 
 
 ##############################
@@ -94,7 +94,8 @@ mkdir -p ${HOME}/.local/share/jupyter/nbextensions && \
     jupyter labextension install jupyterlab-drawio && \
     jupyter labextension install qgrid && \
     jupyter labextension install @jupyterlab/github && \
-    jupyter labextension install @jupyterlab/plotly-extension
+    jupyter labextension install @jupyterlab/plotly-extension && \
+    jupyter labextension install jupyterlab-jupytext
 
 
 ##############################
@@ -128,21 +129,27 @@ unzip apache-livy-$LIVY_VERSION-bin.zip
 rm -rf apache-livy-$LIVY_VERSION-bin.zip
 
 
+# Disabling Almond
+# Almond requires openjdk=8.0.152 but there are lots of conflict issue to install
+# openjdk in conda. Conda return this error:
+# TypeError: sequence item 0: expected str instance, Channel found
+# https://github.com/conda/conda/issues/9681
+
 # Almond
-SCALA_VERSION=2.12.8
-ALMOND_VERSION=0.6.0
-mkdir -p ${HOME}/.local/bin && \
-    curl -L -o ${HOME}/.local/bin/coursier https://git.io/coursier-cli && \
-    chmod +x ${HOME}/.local/bin/coursier && \
-    # ensure the JAR of the CLI is in the coursier cache, in the image
-    coursier --help && \
-    coursier bootstrap \
-      --force -r jitpack \
-      -i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \
-      sh.almond:scala-kernel_$SCALA_VERSION:$ALMOND_VERSION \
-      --default=true --sources \
-      -o almond && \
-    ./almond --force --install --log info --metabrowse && \
-    rm -f almond
+#SCALA_VERSION=2.12.8
+#ALMOND_VERSION=0.6.0
+#mkdir -p ${HOME}/.local/bin && \
+    #curl -L -o ${HOME}/.local/bin/coursier https://git.io/coursier-cli && \
+    #chmod +x ${HOME}/.local/bin/coursier && \
+    ## ensure the JAR of the CLI is in the coursier cache, in the image
+    #coursier --help && \
+    #coursier bootstrap \
+      #--force -r jitpack \
+      #-i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \
+      #sh.almond:scala-kernel_$SCALA_VERSION:$ALMOND_VERSION \
+      #--default=true --sources \
+      #-o almond && \
+    #./almond --force --install --log info --metabrowse && \
+    #rm -f almond
 
 
