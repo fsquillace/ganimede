@@ -1,5 +1,48 @@
 # Ganimede Jupyter Notebook
 
+## Quickstart
+
+To run the Ganimede docker container:
+
+```
+make docker-run
+```
+
+Go to `http://localhost:8888` to access to the JupyterLab.
+
+It is also possible to have the similar experience using conda environment instead
+of a docker container. For more details look at the
+[section](#manage-conda-environments) below.
+
+## List of available packages/tools
+
+The docker image is build on top of
+[all-spark-notebook](https://github.com/jupyter/docker-stacks) image.
+The following are the package/tools provided by Ganimede apart from the ones already
+available in `all-spark-notebok`.
+
+### Jupyter tools
+
+- [Almond]*(https://almond.sh/)
+- [DrawIO](https://github.com/QuantStack/jupyterlab-drawio)
+- [IPySheet](https://github.com/QuantStack/ipysheet)
+- [JupyText](https://github.com/mwouts/jupytext)
+- [Jupyter Contrib extensions](https://github.com/ipython-contrib/jupyter_contrib_nbextensions)
+- [Jupyter Vim binding](https://github.com/lambdalisue/jupyter-vim-binding)
+- [JupyterLab Github](https://github.com/jupyterlab/jupyterlab-github)
+- [JupyterLab TOC](https://github.com/jupyterlab/jupyterlab-toc)
+- [JupyterLab Vim](https://github.com/jwkvam/jupyterlab-vim)
+- [Livy](https://livy.apache.org/)
+- [Papermill](https://github.com/nteract/papermill)
+- [Qgrid](https://github.com/quantopian/qgrid)
+- [S3Contents](https://github.com/danielfrg/s3contents)
+- [SparkMagic](https://github.com/jupyter-incubator/sparkmagic)
+- [Voila](https://github.com/voila-dashboards/voila)
+
+### Libraries available
+
+- TODO
+
 ## Manage Docker images
 
 To pull Ganimede from Docker Hub:
@@ -100,7 +143,7 @@ docker system prune --all --volumes
 
 ## Manage Conda environments
 
-There are scenarios where the Jupyter server/tools and the python libraries are in
+There are scenarios where the Jupyter tools and the python libraries are in
 different conda environments. You can use the scripts in `bin/` directory to
 setup specific set of packages depending on the environment.
 

@@ -2,40 +2,8 @@
 
 set -eux
 
-# List of all packages/extensions installed:
-#
-# Jupyter contrib extensions:
-# https://github.com/ipython-contrib/jupyter_contrib_nbextensions
-# Qgrid:
-# https://github.com/quantopian/qgrid
-# Install vim-binding which does not have a pip or conda package at the moment
-# https://github.com/lambdalisue/jupyter-vim-binding
-# Vim for JupyterLab:
-# https://github.com/jwkvam/jupyterlab-vim
-# TOC:
-# https://github.com/jupyterlab/jupyterlab-toc
-# DrawIO:
-# https://github.com/QuantStack/jupyterlab-drawio
-# ipysheet:
-# https://github.com/QuantStack/ipysheet
-# GitHub:
-# https://github.com/jupyterlab/jupyterlab-github
-# Papermill:
-# https://github.com/nteract/papermill
-# SparkMagic:
-# https://github.com/jupyter-incubator/sparkmagic
-# Almond:
-# https://almond.sh/
-# Images available: https://github.com/almond-sh/docker-images
-
-# Disabled packages:
-#
-# Markdown-kernel:
-# https://github.com/vatlab/markdown-kernel
-# Error:
-#   - Does not work well.
-
 ROOT_DIR="$(dirname $(readlink -f $0))/../"
+
 
 ##############################
 ## Installation base packages
@@ -43,13 +11,24 @@ ROOT_DIR="$(dirname $(readlink -f $0))/../"
 # Make sure there are not cached location that are not longer working
 hash -r
 conda update --yes -n base conda
+# Example:
+#conda install --yes -c anaconda -c conda-forge \
+    #notebook=6.0.3 \
+    #jupyterhub=1.1.0 \
+    #jupyterlab=1.2.6 \
+    #gxx_linux-64=7.3.0 \
+    #nodejs=8.12.0 \
+    #pykerberos \
+    #python=3.7
+
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+
 
 ##############################
 # Custom pip packages
 ##############################
 pip install --upgrade pip && \
     pip install --no-cache-dir \
-    pearl \
     s3contents \
     jupyterlab_github \
     papermill[s3] \
@@ -119,16 +98,10 @@ wget http://apache.uvigo.es/incubator/livy/$LIVY_VERSION/apache-livy-$LIVY_VERSI
 unzip apache-livy-$LIVY_VERSION-bin.zip
 rm -rf apache-livy-$LIVY_VERSION-bin.zip
 
-
-# Disabling Almond
-# Almond requires openjdk=8.0.152 but there are lots of conflict issue to install
-# openjdk in conda. Conda return this error:
-# TypeError: sequence item 0: expected str instance, Channel found
-# https://github.com/conda/conda/issues/9681
-
 # Almond
 if command -v java
 then
+    # Images available: https://github.com/almond-sh/docker-images
     SCALA_VERSION=2.12.8
     ALMOND_VERSION=0.6.0
     mkdir -p ${HOME}/.local/bin && \
