@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 set -eux
 
 # List of all packages installed:

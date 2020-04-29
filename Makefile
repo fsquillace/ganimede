@@ -9,6 +9,8 @@ DOCKER_IMAGE ?= feel/ganimede
 test:
 	docker exec -it ganimede /bin/bash -c 'papermill work/tests/test_notebook.ipynb /tmp/test_notebook_output.ipynb'
 	docker exec -it ganimede /bin/bash -c 'papermill -k pysparkkernel work/tests/test_sparkmagic.ipynb /tmp/test_sparkmagic_output.ipynb'
+	docker exec -it ganimede /bin/bash -c 'work/tests/test_tools_imports.py'
+	docker exec -it ganimede /bin/bash -c 'work/tests/test_libraries_imports.py'
 
 
 ###########################
@@ -30,7 +32,7 @@ docker-run-base:
         $(DOCKER_ARGS) \
         -v "$(WORK_DIR)":/home/jovyan/work \
         -e JUPYTER_ENABLE_LAB="1" \
-        --name ganimede $(DOCKER_IMAGE) start-notebook.sh --LabApp.token=''
+        --name ganimede $(DOCKER_IMAGE) start-ganimede.sh --LabApp.token=''
 
 docker-run: DOCKER_ARGS += --rm
 docker-run: docker-run-base
@@ -47,6 +49,7 @@ docker-shell:
 docker-shell-root: DOCKER_ARGS += -u root
 docker-shell-root: docker-shell
 
+
 ###########################
 # Systemd related targets
 ###########################
@@ -58,5 +61,4 @@ setup-systemd-service:
 
 start-systemd-service: setup-systemd-service
 	systemctl --user start ganimede.service
-
 

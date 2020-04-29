@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 set -eux
 
 # List of all packages/extensions installed:
@@ -41,22 +43,6 @@ ROOT_DIR="$(dirname $(readlink -f $0))/../"
 # Make sure there are not cached location that are not longer working
 hash -r
 conda update --yes -n base conda
-# jupyterlab: Some Jupyter lab extensions do not work with jupyter lab 2.0
-# pykerberos: Required by sparkmagic
-# openjdk [REMOVED]: Required by almond
-# nodejs version higher than 8 conflicts with jupyterlab-manager extension
-#conda install --yes -c anaconda -c conda-forge \
-    #notebook=6.0.3 \
-    #jupyterhub=1.1.0 \
-    #jupyterlab=1.2.6 \
-    #gxx_linux-64=7.3.0 \
-    #nodejs=8.12.0 \
-    #pykerberos \
-    #python=3.7
-# These extensions needs to be reinstalled such that jupyter will pick the version
-# compatible with 1.x
-#jupyter labextension install @jupyter-widgets/jupyterlab-manager @bokeh/jupyter_bokeh jupyterlab-jupytext
-
 
 ##############################
 # Custom pip packages
@@ -67,18 +53,18 @@ pip install --upgrade pip && \
     s3contents \
     jupyterlab_github \
     papermill[s3] \
-    sparkmagic
+    sparkmagic \
+    qgrid
 
 
 ##############################
 # Custom packages via conda
 ##############################
-conda install --quiet --yes \
-    qgrid && \
-    conda install --quiet --yes -c conda-forge \
-    'jupyter_contrib_nbextensions' \
-    'ipysheet' \
-    'jupytext' && \
+conda install --yes -c conda-forge \
+    jupyter_contrib_nbextensions \
+    ipysheet \
+    voila \
+    jupytext && \
     jupyter nbextensions_configurator enable --user
 
 ##############################
@@ -92,11 +78,16 @@ mkdir -p ${HOME}/.local/share/jupyter/nbextensions && \
     jupyter labextension install jupyterlab_vim && \
     jupyter labextension install @jupyterlab/toc && \
     jupyter labextension install jupyterlab-drawio && \
-    jupyter labextension install qgrid && \
+    jupyter labextension install qgrid2 && \
     jupyter labextension install @jupyterlab/github && \
     jupyter labextension install @jupyterlab/plotly-extension && \
-    jupyter labextension install jupyterlab-jupytext
+    jupyter labextension install jupyterlab-jupytext && \
+    jupyter labextension install @jupyter-voila/jupyterlab-preview
 
+jupyter serverextension enable voila --sys-prefix
+
+jupyter nbextension enable --py --sys-prefix qgrid
+jupyter nbextension enable --py --sys-prefix widgetsnbextension
 
 ##############################
 ## Other settings
@@ -136,20 +127,24 @@ rm -rf apache-livy-$LIVY_VERSION-bin.zip
 # https://github.com/conda/conda/issues/9681
 
 # Almond
-#SCALA_VERSION=2.12.8
-#ALMOND_VERSION=0.6.0
-#mkdir -p ${HOME}/.local/bin && \
-    #curl -L -o ${HOME}/.local/bin/coursier https://git.io/coursier-cli && \
-    #chmod +x ${HOME}/.local/bin/coursier && \
-    ## ensure the JAR of the CLI is in the coursier cache, in the image
-    #coursier --help && \
-    #coursier bootstrap \
-      #--force -r jitpack \
-      #-i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \
-      #sh.almond:scala-kernel_$SCALA_VERSION:$ALMOND_VERSION \
-      #--default=true --sources \
-      #-o almond && \
-    #./almond --force --install --log info --metabrowse && \
-    #rm -f almond
-
+if command -v java
+then
+    SCALA_VERSION=2.12.8
+    ALMOND_VERSION=0.6.0
+    mkdir -p ${HOME}/.local/bin && \
+        curl -L -o ${HOME}/.local/bin/coursier https://git.io/coursier-cli && \
+        chmod +x ${HOME}/.local/bin/coursier && \
+        # ensure the JAR of the CLI is in the coursier cache, in the image
+        coursier --help && \
+        coursier bootstrap \
+          --force -r jitpack \
+          -i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \
+          sh.almond:scala-kernel_$SCALA_VERSION:$ALMOND_VERSION \
+          --default=true --sources \
+          -o almond && \
+        ./almond --force --install --log info --metabrowse && \
+        rm -f almond
+else
+    echo WARNING: Java is not installed! Almond will not be installed.
+fi
 
