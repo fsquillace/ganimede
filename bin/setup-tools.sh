@@ -33,8 +33,8 @@ pip install --upgrade pip && \
     jupyterlab_github \
     papermill[s3] \
     sparkmagic \
-    qgrid
-
+    qgrid \
+    jupyterlab-git
 
 ##############################
 # Custom packages via conda
@@ -67,6 +67,9 @@ jupyter serverextension enable voila --sys-prefix
 
 jupyter nbextension enable --py --sys-prefix qgrid
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
+
+jupyter lab build
+
 
 ##############################
 ## Other settings

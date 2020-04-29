@@ -29,6 +29,7 @@ available in `all-spark-notebok`.
 - [JupyText](https://github.com/mwouts/jupytext)
 - [Jupyter Contrib extensions](https://github.com/ipython-contrib/jupyter_contrib_nbextensions)
 - [Jupyter Vim binding](https://github.com/lambdalisue/jupyter-vim-binding)
+- [JupyterLab Git](https://github.com/jupyterlab/jupyterlab-git)
 - [JupyterLab Github](https://github.com/jupyterlab/jupyterlab-github)
 - [JupyterLab TOC](https://github.com/jupyterlab/jupyterlab-toc)
 - [JupyterLab Vim](https://github.com/jwkvam/jupyterlab-vim)
