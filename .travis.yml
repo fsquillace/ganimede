@@ -26,16 +26,16 @@ install:
   - conda info -a
 
 script:
-  #- make -f Makefile-conda test
+  - make -f Makefile-conda test
   - make docker-build
-  #- make docker-background-run DOCKER_IMAGE="ganimede"
-  #- sleep 60
-  #- curl http://localhost:8888
-  #- make test
-  #- docker stop ganimede
+  - make docker-background-run
+  - sleep 60
+  - curl http://localhost:8888
+  - make test
+  - docker stop ganimede
 
 deploy:
   provider: script
   script: make docker-push DOCKER_USERNAME=${DOCKER_USERNAME} DOCKER_PASSWORD=${DOCKER_PASSWORD}
   on:
-    branch: push-image
+    branch: master
