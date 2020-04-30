@@ -10,8 +10,6 @@ set -eux
 # https://www.dgl.ai/pages/start.html
 # SHAP: Explains why the output of any ML model by analyzing the trained model
 # https://github.com/slundberg/shap
-# Qgrid:
-# https://github.com/quantopian/qgrid
 # ipysheet:
 # https://github.com/QuantStack/ipysheet
 # GluonCV: a Deep Learning Toolkit for Computer Vision
@@ -57,12 +55,13 @@ conda install --quiet --yes \
 # Custom pip packages
 ##############################
 # gluonnlp does not work: fast_bert_tokenizer.o: file not recognized: file format not recognized
-pip install --upgrade pip && \
-    pip install --no-cache-dir \
+pip install --upgrade pip
+pip install --no-cache-dir \
     mxnet gluoncv \
     xgboost \
     nltk \
     keras \
+    qgrid \
     tensorflow \
     koalas \
     pyspark \
@@ -73,8 +72,8 @@ pip install --upgrade pip && \
 # Custom packages via conda
 ##############################
 conda install --quiet --yes \
-    'pymc3' qgrid && \
-    conda install --quiet --yes -c conda-forge \
-    'shap' && \
-    conda install --quiet --yes -c dglteam dgl
+    pymc3
+conda install --quiet --yes -c conda-forge \
+    shap
+conda install --quiet --yes -c dglteam dgl
 

@@ -27,8 +27,8 @@ jupyter labextension install @jupyter-widgets/jupyterlab-manager
 ##############################
 # Custom pip packages
 ##############################
-pip install --upgrade pip && \
-    pip install --no-cache-dir \
+pip install --upgrade pip
+pip install --no-cache-dir \
     s3contents \
     jupyterlab_github \
     papermill[s3] \
@@ -43,27 +43,29 @@ conda install --yes -c conda-forge \
     jupyter_contrib_nbextensions \
     ipysheet \
     voila \
-    jupytext && \
-    jupyter nbextensions_configurator enable --user
+    jupytext
 
 ##############################
 # Custom extensions
 ##############################
-mkdir -p ${HOME}/.local/share/jupyter/nbextensions && \
-    cd ${HOME}/.local/share/jupyter/nbextensions && \
-    git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding && \
-    chmod -R go-w vim_binding && \
-    jupyter labextension install ipysheet && \
-    jupyter labextension install jupyterlab_vim && \
-    jupyter labextension install @jupyterlab/toc && \
-    jupyter labextension install jupyterlab-drawio && \
-    jupyter labextension install qgrid2 && \
-    jupyter labextension install @jupyterlab/github && \
-    jupyter labextension install @jupyterlab/plotly-extension && \
-    jupyter labextension install jupyterlab-jupytext && \
-    jupyter labextension install @jupyter-voila/jupyterlab-preview
+mkdir -p ${HOME}/.local/share/jupyter/nbextensions
+cd ${HOME}/.local/share/jupyter/nbextensions
+git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding
+chmod -R go-w vim_binding
+jupyter labextension install ipysheet
+# DISABLING jupterlab vim as is not supported for 2.0
+#jupyter labextension install jupyterlab_vim
+jupyter labextension install @jupyterlab/toc
+jupyter labextension install jupyterlab-drawio
+jupyter labextension install qgrid2
+jupyter labextension install @jupyterlab/github
+# DISABLING plotly as is not supported for 2.0
+#jupyter labextension install @jupyterlab/plotly-extension
+jupyter labextension install jupyterlab-jupytext
+jupyter labextension install @jupyter-voila/jupyterlab-preview
 
 jupyter serverextension enable voila --sys-prefix
+jupyter nbextensions_configurator enable --user
 
 jupyter nbextension enable --py --sys-prefix qgrid
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
@@ -107,19 +109,19 @@ then
     # Images available: https://github.com/almond-sh/docker-images
     SCALA_VERSION=2.12.8
     ALMOND_VERSION=0.6.0
-    mkdir -p ${HOME}/.local/bin && \
-        curl -L -o ${HOME}/.local/bin/coursier https://git.io/coursier-cli && \
-        chmod +x ${HOME}/.local/bin/coursier && \
-        # ensure the JAR of the CLI is in the coursier cache, in the image
-        coursier --help && \
-        coursier bootstrap \
-          --force -r jitpack \
-          -i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \
-          sh.almond:scala-kernel_$SCALA_VERSION:$ALMOND_VERSION \
-          --default=true --sources \
-          -o almond && \
-        ./almond --force --install --log info --metabrowse && \
-        rm -f almond
+    mkdir -p ${HOME}/.local/bin
+    curl -L -o ${HOME}/.local/bin/coursier https://git.io/coursier-cli
+    chmod +x ${HOME}/.local/bin/coursier
+    # ensure the JAR of the CLI is in the coursier cache, in the image
+    coursier --help
+    coursier bootstrap \
+        --force -r jitpack \
+        -i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \
+        sh.almond:scala-kernel_$SCALA_VERSION:$ALMOND_VERSION \
+        --default=true --sources \
+        -o almond
+    ./almond --force --install --log info --metabrowse
+    rm -f almond
 else
     echo WARNING: Java is not installed! Almond will not be installed.
 fi
