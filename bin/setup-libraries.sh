@@ -2,31 +2,6 @@
 
 set -eux
 
-# List of all packages installed:
-#
-# Qgrid:
-# https://github.com/quantopian/qgrid
-# DGL: Deep learning on graphs
-# https://www.dgl.ai/pages/start.html
-# SHAP: Explains why the output of any ML model by analyzing the trained model
-# https://github.com/slundberg/shap
-# ipysheet:
-# https://github.com/QuantStack/ipysheet
-# GluonCV: a Deep Learning Toolkit for Computer Vision
-# https://gluon-cv.mxnet.io/
-# GluonNLP: NLP made easy
-# https://gluon-nlp.mxnet.io/
-# XGBoost: Advanced regressor and classifier
-# https://xgboost.ai/
-# NLTK: human language data for the purpose of building chatbots
-# https://www.nltk.org/
-# Keras: Deep learning and neural networks
-# https://keras.io/
-# Tensorflow: Neural network builder
-# https://www.tensorflow.org/
-# JobLib:
-# https://joblib.readthedocs.io/en/latest/
-
 # Disabled packages:
 #
 # Imbalanced learn: Data augmentation. Allows to under-sampling/over-sampling data.

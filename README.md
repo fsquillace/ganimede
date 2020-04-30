@@ -23,7 +23,7 @@ available in `all-spark-notebok`.
 
 ### Jupyter tools
 
-- [Almond]*(https://almond.sh/)
+- [Almond](https://almond.sh/)
 - [DrawIO](https://github.com/QuantStack/jupyterlab-drawio)
 - [IPySheet](https://github.com/QuantStack/ipysheet)
 - [JupyText](https://github.com/mwouts/jupytext)
@@ -42,7 +42,20 @@ available in `all-spark-notebok`.
 
 ### Libraries available
 
-- TODO
+- [dgl](https://www.dgl.ai/pages/start.html)
+- [gluon-cv](https://gluon-cv.mxnet.io/)
+- [gluon-nlp](https://gluon-nlp.mxnet.io/)
+- [joblib](https://joblib.readthedocs.io/en/latest/)
+- [keras](https://keras.io/)
+- [keras](https://keras.io/)
+- [koalas](https://github.com/databricks/koalas)
+- [mxnet](https://mxnet.apache.org/)
+- [nltk](https://www.nltk.org/)
+- [pymc3](https://docs.pymc.io/)
+- [qgrid](https://github.com/quantopian/qgrid)
+- [shap](https://github.com/slundberg/shap)
+- [tensorflow](https://www.tensorflow.org/)
+- [xgboost](https://xgboost.ai/)
 
 ## Manage Docker images
 
