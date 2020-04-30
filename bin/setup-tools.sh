@@ -11,14 +11,13 @@ ROOT_DIR="$(dirname $(readlink -f $0))/../"
 # Make sure there are not cached location that are not longer working
 hash -r
 conda update --yes -n base conda
-# Example:
-#conda install --yes -c anaconda -c conda-forge \
-    #notebook=6.0.3 \
-    #jupyterhub=1.1.0 \
-    #jupyterlab=1.2.6 \
-    #gxx_linux-64=7.3.0 \
-    #nodejs=8.12.0 \
-    #pykerberos \
+conda install --yes -c conda-forge \
+    nodejs \
+    notebook \
+    jupyterhub \
+    jupyterlab
+# Other packages:
+    #gxx_linux-64=7.3.0
     #python=3.7
 
 jupyter labextension install @jupyter-widgets/jupyterlab-manager
@@ -50,19 +49,21 @@ conda install --yes -c conda-forge \
 ##############################
 mkdir -p ${HOME}/.local/share/jupyter/nbextensions
 cd ${HOME}/.local/share/jupyter/nbextensions
+rm -rf ${HOME}/.local/share/jupyter/nbextensions/vim_binding
 git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding
 chmod -R go-w vim_binding
-jupyter labextension install ipysheet
 # DISABLING jupterlab vim as is not supported for 2.0
 #jupyter labextension install jupyterlab_vim
-jupyter labextension install @jupyterlab/toc
-jupyter labextension install jupyterlab-drawio
-jupyter labextension install qgrid2
-jupyter labextension install @jupyterlab/github
 # DISABLING plotly as is not supported for 2.0
 #jupyter labextension install @jupyterlab/plotly-extension
-jupyter labextension install jupyterlab-jupytext
-jupyter labextension install @jupyter-voila/jupyterlab-preview
+jupyter labextension install \
+    @jupyterlab/toc \
+    jupyterlab-drawio \
+    qgrid2 \
+    @jupyterlab/github \
+    jupyterlab-jupytext \
+    @jupyter-voila/jupyterlab-preview \
+    ipysheet
 
 jupyter serverextension enable voila --sys-prefix
 jupyter nbextensions_configurator enable --user
