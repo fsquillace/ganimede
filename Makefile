@@ -56,6 +56,7 @@ docker-shell-root: docker-shell
 setup-systemd-service:
 	mkdir -p ${HOME}/.config/systemd/user/
 	cp ganimede.service ${HOME}/.config/systemd/user/
+	sed -i -e "s@%h@$(WORK_DIR)@g" ${HOME}/.config/systemd/user/ganimede.service
 	systemctl --user daemon-reload
 	systemctl --user enable ganimede.service
 

@@ -1,22 +1,28 @@
 # Ganimede Jupyter Notebook
 
+## Description
+
+Ganimede is a Jupyter Notebook server that contains additional Jupyter
+tools and libraries in order to get a more complete solution without
+the hassle of installing and configuring them.
+Ganimede can be used either as a Docker container or inside conda environment.
+For more details on how to setup Ganimede in conda environment look at the
+[section](#manage-conda-environments) below.
+
 ## Quickstart
 
 To run the Ganimede docker container:
 
 ```
+make docker-pull
 make docker-run
 ```
 
 Go to `http://localhost:8888` to access to the JupyterLab.
 
-It is also possible to have the similar experience using conda environment instead
-of a docker container. For more details look at the
-[section](#manage-conda-environments) below.
-
 ## List of available packages/tools
 
-The docker image is build on top of
+The docker image is built on top of
 [all-spark-notebook](https://github.com/jupyter/docker-stacks) image.
 The following are the package/tools provided by Ganimede apart from the ones already
 available in `all-spark-notebok`.
@@ -115,6 +121,8 @@ To automatically start container at boot time:
 make docker-boot-run WORK_DIR="/path/to/workdir"
 ```
 
+For more information take a look [here](https://docs.docker.com/config/containers/start-containers-automatically/).
+
 #### Persist Jupyter user settings
 
 The folder `.jupyter` contains the jupyter settings.
@@ -130,11 +138,8 @@ are located in `/home/username/jupyter-config`:
 If your system supports systemd you can run Ganimede as a Systemd service
 
 ```
-make start-systemd-service
+make start-systemd-service WORK_DIR="/path/to/workdir"
 ```
-
-
-For more information take a look [here](https://docs.docker.com/config/containers/start-containers-automatically/).
 
 ## Restart docker via systemd
 
