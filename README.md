@@ -73,7 +73,6 @@ available in `all-spark-notebok`.
 - [gluon-nlp](https://gluon-nlp.mxnet.io/)
 - [nltk](https://www.nltk.org/)
 - [spacy](https://spacy.io/)
-- [stanza](https://github.com/stanfordnlp/stanza/)
 - [textdistance](https://pypi.org/project/textdistance/)
 
 #### Machine learning libraries
@@ -83,7 +82,6 @@ available in `all-spark-notebok`.
 - [keras](https://keras.io/)
 - [mxnet](https://mxnet.apache.org/)
 - [pymc3](https://docs.pymc.io/)
-- [pytorch](https://pytorch.org/)
 - [shap](https://github.com/slundberg/shap)
 - [tensorflow](https://www.tensorflow.org/)
 - [xgboost](https://xgboost.ai/)

@@ -17,8 +17,6 @@ import luigi
 import textdistance
 import spacy
 import ipysheet
-import stanza
-import torch
 import gensim
 import tqdm
 import pyathena

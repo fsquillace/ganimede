@@ -47,8 +47,6 @@ pip install --no-cache-dir \
     PyAthena \
     dask[complete] \
     spacy \
-    torch \
-    stanza \
     spacy-lookups-data \
     joblib
 
