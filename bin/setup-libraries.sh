@@ -21,7 +21,6 @@ set -eux
 # Make sure there are not cached location that are not longer working
 hash -r
 conda update --yes -n base conda
-# gxx_linux-64: Required for gluonnlp
 conda install --quiet --yes \
     python=3.7
 
@@ -29,18 +28,31 @@ conda install --quiet --yes \
 ##############################
 # Custom pip packages
 ##############################
-# gluonnlp does not work: fast_bert_tokenizer.o: file not recognized: file format not recognized
 pip install --upgrade pip
 pip install --no-cache-dir \
-    mxnet gluoncv \
+    mxnet gluoncv gluonnlp \
     xgboost \
     nltk \
     keras \
     qgrid \
+    pyarrow \
+    altair vega_datasets \
     tensorflow \
     koalas \
     pyspark \
+    gensim \
+    tqdm \
+    textdistance \
+    luigi \
+    PyAthena \
+    dask[complete] \
+    spacy \
+    torch \
+    stanza \
+    spacy-lookups-data \
     joblib
+
+python -m spacy download en_core_web_sm
 
 
 ##############################
@@ -49,6 +61,7 @@ pip install --no-cache-dir \
 conda install --quiet --yes \
     pymc3
 conda install --quiet --yes -c conda-forge \
-    shap
+    shap \
+    ipysheet
 conda install --quiet --yes -c dglteam dgl
 

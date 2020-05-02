@@ -20,8 +20,6 @@ conda install --yes -c conda-forge \
     #gxx_linux-64=7.3.0
     #python=3.7
 
-jupyter labextension install @jupyter-widgets/jupyterlab-manager
-
 
 ##############################
 # Custom pip packages
@@ -33,7 +31,9 @@ pip install --no-cache-dir \
     papermill[s3] \
     sparkmagic \
     qgrid \
-    jupyterlab-git
+    jupyterlab-git \
+    xeus-python==0.7.1 \
+    ptvsd
 
 ##############################
 # Custom packages via conda
@@ -47,6 +47,8 @@ conda install --yes -c conda-forge \
 ##############################
 # Custom extensions
 ##############################
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+
 mkdir -p ${HOME}/.local/share/jupyter/nbextensions
 cd ${HOME}/.local/share/jupyter/nbextensions
 rm -rf ${HOME}/.local/share/jupyter/nbextensions/vim_binding
@@ -63,7 +65,8 @@ jupyter labextension install \
     @jupyterlab/github \
     jupyterlab-jupytext \
     @jupyter-voila/jupyterlab-preview \
-    ipysheet
+    ipysheet \
+    @jupyterlab/debugger
 
 jupyter serverextension enable voila --sys-prefix
 jupyter nbextensions_configurator enable --user

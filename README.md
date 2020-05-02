@@ -5,7 +5,7 @@
 Ganimede is a Jupyter Notebook server that contains additional Jupyter
 tools and libraries in order to get a more complete solution without
 the hassle of installing and configuring them.
-Ganimede can be used either as a Docker container or inside conda environment.
+Ganimede can be used either as a Docker container or inside conda environments.
 For more details on how to setup Ganimede in conda environment look at the
 [section](#manage-conda-environments) below.
 
@@ -35,8 +35,10 @@ available in `all-spark-notebok`.
 - [JupyText](https://github.com/mwouts/jupytext)
 - [Jupyter Contrib extensions](https://github.com/ipython-contrib/jupyter_contrib_nbextensions)
 - [Jupyter Vim binding](https://github.com/lambdalisue/jupyter-vim-binding)
+- [JupyterLab Debugger](https://github.com/jupyterlab/debugger)
 - [JupyterLab Git](https://github.com/jupyterlab/jupyterlab-git)
 - [JupyterLab Github](https://github.com/jupyterlab/jupyterlab-github)
+- [JupyterLab LSP](https://github.com/krassowski/jupyterlab-lsp)
 - [JupyterLab TOC](https://github.com/jupyterlab/jupyterlab-toc)
 - [JupyterLab Vim](https://github.com/jwkvam/jupyterlab-vim)
 - [Livy](https://livy.apache.org/)
@@ -48,17 +50,40 @@ available in `all-spark-notebok`.
 
 ### Libraries available
 
+
+#### Data processing libraries
+
+- [dask](https://dask.org/)
+- [joblib](https://joblib.readthedocs.io/en/latest/)
+- [koalas](https://github.com/databricks/koalas)
+- [luigi](https://luigi.readthedocs.io/en/latest/#)
+- [pyarrow](https://pypi.org/project/pyarrow/)
+- [pyathena](https://pypi.org/project/PyAthena/)
+- [tqdm](https://github.com/tqdm/tqdm)
+
+#### Data visualization libraries
+
+- [altair](https://altair-viz.github.io/index.html)
+- [ipysheet](https://github.com/QuantStack/ipysheet)
+- [qgrid](https://github.com/quantopian/qgrid)
+
+#### NLP related libraries
+
+- [gensim](https://radimrehurek.com/gensim/)
+- [gluon-nlp](https://gluon-nlp.mxnet.io/)
+- [nltk](https://www.nltk.org/)
+- [spacy](https://spacy.io/)
+- [stanza](https://github.com/stanfordnlp/stanza/)
+- [textdistance](https://pypi.org/project/textdistance/)
+
+#### Machine learning libraries
+
 - [dgl](https://www.dgl.ai/pages/start.html)
 - [gluon-cv](https://gluon-cv.mxnet.io/)
-- [gluon-nlp](https://gluon-nlp.mxnet.io/)
-- [joblib](https://joblib.readthedocs.io/en/latest/)
 - [keras](https://keras.io/)
-- [keras](https://keras.io/)
-- [koalas](https://github.com/databricks/koalas)
 - [mxnet](https://mxnet.apache.org/)
-- [nltk](https://www.nltk.org/)
 - [pymc3](https://docs.pymc.io/)
-- [qgrid](https://github.com/quantopian/qgrid)
+- [pytorch](https://pytorch.org/)
 - [shap](https://github.com/slundberg/shap)
 - [tensorflow](https://www.tensorflow.org/)
 - [xgboost](https://xgboost.ai/)
