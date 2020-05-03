@@ -1,5 +1,7 @@
 # Ganimede Jupyter Notebook
 
+[![Build status](https://api.travis-ci.org/fsquillace/ganimede.png?branch=master)](https://travis-ci.org/fsquillace/ganimede)
+
 ## Description
 
 Ganimede is a Jupyter Notebook server that contains additional Jupyter
@@ -38,7 +40,6 @@ available in `all-spark-notebok`.
 - [JupyterLab Debugger](https://github.com/jupyterlab/debugger)
 - [JupyterLab Git](https://github.com/jupyterlab/jupyterlab-git)
 - [JupyterLab Github](https://github.com/jupyterlab/jupyterlab-github)
-- [JupyterLab LSP](https://github.com/krassowski/jupyterlab-lsp)
 - [JupyterLab TOC](https://github.com/jupyterlab/jupyterlab-toc)
 - [JupyterLab Vim](https://github.com/jwkvam/jupyterlab-vim)
 - [Livy](https://livy.apache.org/)
